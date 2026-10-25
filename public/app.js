@@ -2,7 +2,7 @@ const BASE = '/games/robot-pal';
 const $ = selector => document.querySelector(selector);
 const board = $('#board-content'), feedback = $('#board-feedback'), robotSide = $('#robot-side'), bubble = $('#robot-bubble');
 let state, sound = true, narration = null, currentGame = null, question = null, round = 0, roundCorrect = true, locked = false, roundRecorded = false;
-let pc = null, dc = null, mic = null, voiceId = null, capture = false, holdIntent = false, connecting = false, releasing = false, events = null, toastTimer, nextTimer, gestureTimer;
+let pc = null, dc = null, mic = null, voiceId = null, capture = false, holdIntent = false, connecting = false, disconnecting = false, releasing = false, events = null, toastTimer, nextTimer, gestureTimer;
 let captureStart = 0, outputText = '', lastSources = [], preferredVoiceState = 'idle', audioOwner = 'local';
 const audioOut = document.createElement('audio'); audioOut.autoplay = true; audioOut.setAttribute('playsinline', ''); document.body.append(audioOut);
 function fitViewport() { document.documentElement.style.setProperty('--app-height', `${Math.floor(window.visualViewport?.scale === 1 ? window.visualViewport.height : window.innerHeight)}px`); }
@@ -48,7 +48,7 @@ function home() {
   $('.playroom').dataset.scene = 'conversation'; board.replaceChildren();
 }
 async function navigate(action) {
-  if (capture || connecting || releasing) return;
+  if (capture || connecting || disconnecting || releasing) return;
   try {
     narration?.pause();
     if (voiceId) await api('/voice/interrupt', { id: voiceId });
@@ -139,13 +139,14 @@ function showWeather(f) {
 function voiceAllowed() { return state?.voice.configured && state.voice.enabled && (state.voice.childVoiceEnabled || state.voice.adultTest) && sound; }
 function updateVoiceUI() {
   const allowed = voiceAllowed(); $('#talk-button').classList.toggle('listening', capture); $('#voice-dot').classList.toggle('online', !!voiceId); $('#disconnect-button').hidden = !voiceId;
-  $('#talk-label').textContent = connecting ? 'З’єднуємося…' : capture ? (state.talkMode === 'tap' ? 'Я сказав!' : 'Я слухаю…') : voiceId ? (state.talkMode === 'tap' ? 'Почати говорити' : 'Тримай і говори') : 'Поговорити';
+  $('#talk-button').disabled = disconnecting;
+  $('#talk-label').textContent = disconnecting ? 'Завершуємо…' : connecting ? 'З’єднуємося…' : capture ? (state.talkMode === 'tap' ? 'Я сказав!' : 'Я слухаю…') : voiceId ? (state.talkMode === 'tap' ? 'Почати говорити' : 'Тримай і говори') : 'Поговорити';
   $('#voice-status').textContent = capture ? 'Я уважно слухаю' : connecting ? 'Зараз будемо на зв’язку' : voiceId ? 'Ми на зв’язку!' : 'Є цікаве запитання?';
   $('#voice-help').textContent = !sound ? 'Увімкни звук, щоб розмовляти.' : !allowed ? 'Поки що пограймо! Голос увімкне дорослий.' : state.voice.adultTest && !state.voice.childVoiceEnabled ? 'Тест дорослого · лише синтетичні або дорослі запитання' : !voiceId ? 'Натисни, щоб покликати Робі.' : state.talkMode === 'tap' ? 'Натисни, скажи, натисни ще раз.' : 'Тримай кнопку. Скажи. Відпусти.';
   $('#talk-button').setAttribute('aria-pressed', String(capture));
 }
 async function connectVoice() {
-  if (connecting || voiceId) return;
+  if (connecting || disconnecting || voiceId) return;
   if (!voiceAllowed()) { toast(sound ? 'Розмову може увімкнути дорослий у налаштуваннях.' : 'Спочатку увімкни звук.'); return; }
   if (!navigator.mediaDevices?.getUserMedia || !window.RTCPeerConnection) { toast('Цей браузер не підтримує голос. Спробуй Safari на оновленому iPad.'); return; }
   connecting = true; updateVoiceUI(); narration?.pause(); home(); robotState('idle'); audioOwner = 'remote'; audioOut.muted = false;
@@ -153,7 +154,7 @@ async function connectVoice() {
     mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }, video: false });
     mic.getAudioTracks().forEach(t => { t.enabled = false; });
     pc = new RTCPeerConnection(); pc.ontrack = e => { audioOut.srcObject = e.streams[0]; audioOut.play().catch(() => toast('Натисни «Поговорити», щоб увімкнути звук.')); };
-    pc.onconnectionstatechange = () => { if (pc && ['failed','disconnected','closed'].includes(pc.connectionState)) disconnectVoice(true); };
+    pc.onconnectionstatechange = () => { if (pc && ['failed','disconnected','closed'].includes(pc.connectionState)) disconnectVoice(); };
     mic.getAudioTracks().forEach(t => pc.addTrack(t, mic));
     dc = pc.createDataChannel('oai-events'); dc.onmessage = handleVoiceEvent;
     const offer = await pc.createOffer(); await pc.setLocalDescription(offer);
@@ -166,14 +167,14 @@ async function connectVoice() {
 }
 function handleVoiceEvent(message) {
   let e; try { e = JSON.parse(message.data); } catch { return; }
-  if (audioOwner !== 'remote') return;
+  if (audioOwner !== 'remote' || capture) return;
   if (e.type === 'response.created') { outputText = ''; narration?.pause(); robotState('thinking'); }
   if (e.type === 'response.output_audio_transcript.delta') { outputText += e.delta || ''; bubble.textContent = outputText; }
   if (e.type === 'output_audio_buffer.started') { robotState('speaking'); }
   if (e.type === 'output_audio_buffer.stopped' || e.type === 'output_audio_buffer.cleared') { if (!capture) robotState('idle'); }
 }
 async function beginCapture() {
-  if (capture || connecting || releasing) return;
+  if (capture || connecting || disconnecting || releasing) return;
   if (!voiceId) { await connectVoice(); return; }
   try {
     narration?.pause(); await api('/voice/start', { id: voiceId });
@@ -193,11 +194,13 @@ async function finishCapture(cancel = false) {
   releasing = false;
 }
 async function disconnectVoice(fromServer = false) {
+  if (disconnecting) return; disconnecting = true;
   const hadSession = voiceId; voiceId = null; capture = false; releasing = false;
   mic?.getTracks().forEach(t => t.stop()); mic = null;
   if (pc) { pc.onconnectionstatechange = null; pc.close(); pc = null; }
   dc = null; audioOut.pause(); audioOut.srcObject = null; robotState('idle'); updateVoiceUI();
   if (hadSession && !fromServer) await api('/voice/stop', {}).catch(() => {});
+  disconnecting = false; updateVoiceUI();
 }
 function subscribeEvents() {
   events = new EventSource(`${BASE}/api/events`);
@@ -214,7 +217,7 @@ function subscribeEvents() {
     if (e.type === 'ukrainian_redirect') { robotState('idle'); say('ukrainian-only', 'Я розумію лише українську. Скажи українською, будь ласка.'); }
     if (e.type === 'capture_timeout') { capture = false; mic?.getAudioTracks().forEach(t => { t.enabled = false; }); updateVoiceUI(); robotState('idle'); toast('Зробімо паузу. Натисни ще раз, коли будеш готовий.'); }
   if (e.type === 'safe_fallback') { disconnectVoice(); say('safe-fallback', 'Давай краще дослідимо щось добре й безпечне.'); }
-    if (e.type === 'voice_closed') { disconnectVoice(true); if (['budget_exhausted','budget_or_disabled'].includes(e.reason)) toast('На сьогодні розмови завершено. Пограймо!'); }
+    if (e.type === 'voice_closed' && (!e.id || e.id === voiceId)) { disconnectVoice(true); if (['budget_exhausted','budget_or_disabled'].includes(e.reason)) toast('На сьогодні розмови завершено. Пограймо!'); }
     if (e.type === 'voice_error') toast('Робі не розчув. Спробуй ще раз.');
   };
 }
