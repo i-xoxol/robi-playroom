@@ -1,0 +1,113 @@
+/* A single landscape stage; only the current activity has a board. */
+body.playroom-app { height: 100vh; height: var(--app-height, 100dvh); overflow: hidden; overscroll-behavior: none; -webkit-text-size-adjust: 100%; }
+.playroom-app .app-shell { height: 100%; max-width: 1440px; padding: env(safe-area-inset-top, 0px) max(18px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; }
+.playroom-app .topbar { height: 62px; flex: 0 0 62px; border: 0; }
+.playroom-app .brand { font-size: 18px; gap: 10px; }
+.playroom-app .brand-mark { width: 38px; height: 38px; border-radius: 13px; font-size: 27px; }
+.playroom-app .brand small { font-size: 8px; }
+.games-button { min-height: 44px; padding: 10px 21px; border: 1px solid #c8d9ca; border-radius: 15px; background: #e3eddf; font-size: 16px; font-weight: 750; }
+.playroom-app main { min-height: 0; flex: 1; display: grid; grid-template-rows: minmax(0, 1fr) 94px 22px; gap: 10px; }
+.playroom-app .playroom { min-height: 0; height: 100%; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 16px; }
+.playroom-app .robot-side { min-height: 0; height: 100%; border-radius: 28px; background: radial-gradient(ellipse at 50% 55%, #d9eadd, #e7ecdf 74%); display: grid; grid-template-rows: minmax(96px, .37fr) minmax(0, 1fr) 30px; justify-items: center; align-items: center; padding: 14px 14px 0; }
+.playroom-app .speech-bubble { position: relative; inset: auto; width: 100%; max-width: 660px; max-height: 100%; min-height: 0; margin: 0; padding: 12px 18px; font-size: clamp(14px, 1.7vw, 18px); line-height: 1.4; text-align: center; align-self: center; overflow: auto; }
+.playroom-app .robot-side { grid-template-columns: minmax(0, 1fr); justify-content: stretch; }
+.playroom-app .speech-bubble:after { display: none; }
+.playroom-app .robot { position: relative; inset: auto; width: 100%; height: 100%; max-width: 400px; max-height: 420px; min-height: 0; margin: 0; }
+.playroom-app .robot-name { position: static; margin: 0; padding-bottom: 8px; text-align: center; font-size: 13px; }
+.playroom-app .robot-name span, .playroom-app .floor-line { display: none; }
+.playroom-app .board-side { min-width: 0; min-height: 0; height: 100%; padding: 0; }
+.playroom-app .discovery-board { min-height: 0; height: 100%; box-shadow: none; border-radius: 28px; }
+.playroom-app .board-top { padding: 7px 18px; min-height: 44px; flex: 0 0 44px; }
+.playroom-app .small-button { min-width: 44px; min-height: 38px; }
+.playroom-app .board-content { min-height: 0; padding: 15px 20px 10px; gap: 4px; }
+.playroom-app .board-content h2 { font-size: clamp(21px, 2.4vw, 30px); margin: 4px 0 8px; }
+.playroom-app .board-content p { font-size: 16px; line-height: 1.4; margin: 0 0 8px; }
+.playroom-app .board-content .eyebrow { font-size: 9px; margin: 4px 0; }
+.playroom-app .game-progress { top: 7px; left: 18px; font-size: 9px; }
+.playroom-app .object-grid { gap: 7px; max-width: 400px; min-height: 0; margin: 6px auto; }
+.playroom-app .object-grid svg { width: clamp(36px, 4.6vw, 53px); height: clamp(36px, 4.6vw, 53px); }
+.playroom-app .answer-row { gap: 14px; margin: 6px 0; }
+.playroom-app .answer-button { min-width: 72px; min-height: 64px; font-size: 30px; padding: 8px 14px; border-radius: 18px; }
+.playroom-app .shape-answer { min-width: 90px; min-height: 90px; }
+.playroom-app .shape-answer svg { width: 66px; height: 66px; }
+.playroom-app .clue-answer { min-width: 90px; min-height: 100px; padding: 8px 10px; }
+.playroom-app .clue-answer svg { width: 62px; height: 62px; }
+.playroom-app .clue-answer span { font-size: 13px; }
+.playroom-app .board-feedback { min-height: 0; padding: 0 14px 10px; font-size: 14px; }
+.playroom-app .board-feedback:empty { display: none; }
+.playroom-app .game-next { flex-shrink: 0; margin-top: 6px; min-height: 44px; padding: 10px 18px; font-size: 14px; }
+.playroom-app .picture-large { width: 100%; height: auto; min-height: 0; max-width: 520px; margin: 0 0 10px; }
+.playroom-app .picture-large > svg { width: 100%; max-height: 250px; display: block; }
+.playroom-app .welcome-drawing { height: 95px; width: 150px; }
+.playroom-app .welcome-drawing svg { width: 100%; height: 100%; }
+.playroom-app .playroom[data-scene=conversation] { grid-template-columns: minmax(0, 1fr); }
+.playroom-app [data-scene=conversation] .board-side { display: none; }
+.playroom-app [data-scene=conversation] .robot-side { grid-template-rows: minmax(85px, .28fr) minmax(0, 1fr) 30px; }
+.playroom-app [data-scene=conversation] .speech-bubble { font-size: clamp(17px, 2vw, 21px); }
+.game-menu { display: grid; gap: 12px; width: min(100%, 360px); }
+.game-menu button { min-height: 62px; padding: 14px 20px; border-radius: 18px; border: 1px solid #cadbcd; background: #e8f0e2; font-size: 21px; font-weight: 700; }
+.playroom-app .talk-bar { position: static; min-height: 0; height: 94px; padding: 12px 20px; margin: 0; gap: 16px; border-radius: 23px; box-shadow: none; }
+.playroom-app .talk-description strong { font-size: 15px; }
+.playroom-app .talk-description p { font-size: 12px; }
+.playroom-app .talk-button { min-width: 210px; min-height: 62px; padding: 15px 22px; font-size: 17px; }
+.playroom-app .disconnect-button { position: static; padding: 10px; font-size: 12px; }
+.playroom-app .app-footer { padding: 0 2px 6px; align-items: center; font-size: 10px; }
+.playroom-app .app-footer .ai-note { display: inline; font-size: 9px; max-width: none; }
+.playroom-app .welcome-card { max-height: calc(100dvh - 32px); padding: 24px 36px; overflow: auto; }
+.playroom-app .welcome-spark { display: none; }
+.playroom-app .welcome-card h2 { font-size: 30px; margin: 10px 0; }
+.playroom-app .welcome-card .primary { margin-top: 18px; min-height: 52px; }
+.rotate-prompt { display: none; }
+.weather-icon { font-size: clamp(56px, 9vh, 92px); line-height: 1.1; margin: 4px 0; }
+.weather-temperature { font-size: 38px; font-weight: 800; margin: 4px 0 8px; }
+.weather-temperature small { font-size: 14px; font-weight: 500; }
+.playroom-app .weather-source, .playroom-app .weather-region { font-size: 11px; color: #7c8d83; }
+@media (max-height: 650px) and (orientation: landscape) {
+  .playroom-app .topbar { height: 54px; flex-basis: 54px; }
+  .playroom-app main { grid-template-rows: minmax(0, 1fr) 78px 18px; gap: 7px; }
+  .playroom-app .talk-bar { height: 78px; padding: 8px 16px; }
+  .playroom-app .talk-button { min-height: 56px; }
+  .playroom-app .board-content { padding: 15px 14px 6px; gap: 0; }
+  .playroom-app .board-content h2 { font-size: 23px; margin: 3px 0 6px; }
+  .playroom-app .board-content p { font-size: 14px; margin-bottom: 4px; }
+  .playroom-app .picture-large > svg { max-height: 180px; }
+  .playroom-app .board-feedback { padding-bottom: 6px; }
+  .playroom-app .game-menu { gap: 8px; }
+  .game-menu button { min-height: 52px; padding: 10px 18px; font-size: 18px; }
+}
+@media (max-height: 470px) and (orientation: landscape) {
+  .playroom-app .app-shell { padding-left: 10px; padding-right: 10px; }
+  .playroom-app .topbar { height: 48px; flex-basis: 48px; }
+  .playroom-app main { grid-template-rows: minmax(0, 1fr) 66px 14px; gap: 5px; }
+  .playroom-app .robot-side { padding: 7px 10px 0; grid-template-rows: minmax(65px, .42fr) minmax(0, 1fr) 18px; }
+  .playroom-app .speech-bubble { font-size: 13px; padding: 7px 10px; }
+  .playroom-app .robot-name { font-size: 11px; padding-bottom: 3px; }
+  .playroom-app .board-top { min-height: 30px; flex-basis: 30px; padding: 0 12px; }
+  .playroom-app .small-button { min-height: 30px; }
+  .playroom-app .board-content h2 { font-size: 19px; }
+  .playroom-app .board-content p { font-size: 12px; }
+  .playroom-app .board-content .eyebrow { display: none; }
+  .playroom-app .object-grid { margin: 3px auto; max-width: 290px; gap: 3px; }
+  .playroom-app .object-grid svg { width: 30px; height: 30px; }
+  .playroom-app .answer-button { min-height: 44px; min-width: 60px; padding: 4px 10px; font-size: 24px; }
+  .playroom-app .shape-answer svg, .playroom-app .clue-answer svg { width: 42px; height: 42px; }
+  .playroom-app .clue-answer span { font-size: 11px; }
+  .playroom-app .answer-row { margin: 3px 0; }
+  .playroom-app .board-feedback { font-size: 11px; padding-bottom: 3px; }
+  .playroom-app .game-next { min-height: 36px; padding: 6px 12px; margin-top: 2px; font-size: 12px; }
+  .playroom-app .picture-large > svg { max-height: 120px; }
+  .playroom-app .game-menu { gap: 6px; }
+  .game-menu button { min-height: 40px; padding: 8px 14px; font-size: 16px; }
+  .playroom-app .talk-bar { height: 66px; padding: 7px 12px; }
+  .playroom-app .talk-button { min-height: 48px; min-width: 180px; padding: 10px 16px; font-size: 15px; }
+  .playroom-app .talk-description strong { font-size: 13px; }
+  .playroom-app .talk-description p { font-size: 10px; }
+  .playroom-app .app-footer, .playroom-app .app-footer .ai-note { font-size: 8px; }
+}
+@media (orientation: portrait) {
+  .playroom-app .rotate-prompt { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--paper); padding: 28px; text-align: center; }
+  .rotate-prompt > span { font-size: 100px; color: var(--darkmint); line-height: 1; }
+  .rotate-prompt h2 { font-size: 28px; }
+  .rotate-prompt p { color: #6d827a; font-size: 17px; line-height: 1.5; }
+  .playroom-app .app-shell, .playroom-app .welcome-overlay { visibility: hidden; }
+}

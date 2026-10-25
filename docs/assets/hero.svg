@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-labelledby="title desc">
+<title id="title">Робі — a little robot for big questions</title><desc id="desc">A friendly mint robot beside the Ukrainian playroom title on a dark blue background.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#172f42"/><stop offset="1" stop-color="#345c65"/></linearGradient><linearGradient id="bot" x2="1" y2="1"><stop stop-color="#ddfff0"/><stop offset="1" stop-color="#83d6c8"/></linearGradient></defs>
+<rect width="1280" height="420" rx="28" fill="url(#bg)"/>
+<circle cx="1060" cy="210" r="205" fill="#c4e9d5" opacity=".05"/>
+<rect x="68" y="63" width="210" height="31" rx="15" fill="#b6dfce" opacity=".13"/>
+<text x="88" y="84" font-family="Segoe UI,Arial,sans-serif" font-size="13" letter-spacing="2" fill="#c0e9d6">UKRAINIAN PLAYROOM</text>
+<text x="63" y="195" font-family="Segoe UI,Arial,sans-serif" font-size="105" font-weight="750" letter-spacing="-4" fill="#fff9e9">Робі.</text>
+<text x="68" y="254" font-family="Segoe UI,Arial,sans-serif" font-size="34" font-weight="600" fill="#e9f1dc">A little robot. Big questions.</text>
+<text x="68" y="298" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#b5cdc5">Talk in Ukrainian. Count the stars. Wonder together.</text>
+<text x="68" y="363" font-family="Segoe UI,Arial,sans-serif" font-size="14" letter-spacing="2" fill="#e1c57e">REALTIME VOICE  ·  ONE CLEAR SCREEN  ·  SELF-HOSTED</text>
+<g transform="translate(895 72)"><path d="M117 44V12" stroke="#88b2b2" stroke-width="9"/><circle cx="117" cy="9" r="15" fill="#edca76"/><rect x="1" y="98" width="24" height="71" rx="11" fill="#70b9ae"/><rect x="212" y="98" width="24" height="71" rx="11" fill="#70b9ae"/><rect x="16" y="43" width="205" height="180" rx="65" fill="url(#bot)" stroke="#71bfb3" stroke-width="3"/><path d="M44 78Q116 48 193 77" fill="none" stroke="#f0fff5" stroke-width="8" stroke-linecap="round"/><rect x="35" y="83" width="167" height="114" rx="40" fill="#1c3c50"/><ellipse cx="80" cy="126" rx="12" ry="18" fill="#a8f9d8"/><ellipse cx="157" cy="126" rx="12" ry="18" fill="#a8f9d8"/><path d="M101 158q19 22 38 0" fill="none" stroke="#a8f9d8" stroke-width="8" stroke-linecap="round"/><ellipse cx="65" cy="151" rx="12" ry="5" fill="#456b79"/><ellipse cx="173" cy="151" rx="12" ry="5" fill="#456b79"/><rect x="69" y="229" width="100" height="51" rx="21" fill="#b9ead7"/><path d="M108 241c-10-12-25 4 10 26 35-22 20-38 10-26l-10 9Z" fill="#eaa47f"/></g>
+</svg>

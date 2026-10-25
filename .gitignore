@@ -1,0 +1,14 @@
+node_modules/
+.env*
+data/
+.owner-access.txt
+*.db*
+qa-output/
+__pycache__/
+!.env.example
+OPERATIONS.private.md
+scripts/deploy.py
+scripts/deploy-safari-language.py
+scripts/enable-family-voice.py
+scripts/verify-production.py
+*.tar.gz
