@@ -20,6 +20,12 @@
   <a href="docs/architecture.md">How it works</a>
 </p>
 
+Part of the **[Family Game Room](https://github.com/i-xoxol/family-game-room)**:
+five browser games for little learners, with a
+[screenshot gallery and playable static demos](https://i-xoxol.github.io/family-game-room/).
+Robi keeps its voice backend and history in this repository; the collection pins
+it as a Git submodule.
+
 ## Why I built this
 
 I wanted a small, friendly robot that a young child could talk to in Ukrainian
