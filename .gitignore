@@ -11,4 +11,7 @@ scripts/deploy.py
 scripts/deploy-safari-language.py
 scripts/enable-family-voice.py
 scripts/verify-production.py
+scripts/deploy-memory.py
+scripts/qa-memory.mjs
+family-profile.private.json
 *.tar.gz

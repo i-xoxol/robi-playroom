@@ -56,6 +56,8 @@ pictures disappear. A parent controls access, voice and spending.
 | **Tomorrow's weather** | City-level Open-Meteo forecasts, with the same city, date and data on screen and in the spoken answer. |
 | **Home Screen installation** | Safari Share → Add to Home Screen, with a recognizable robot icon and standalone launch. |
 | **Parent controls** | Password, expiring parent access, model selection, budget, interests and progress erasure. |
+| **Private family context** | Parent-managed names, relationships, school and home city. These are separate from learned memories. |
+| **Memory between conversations** | Sol 6.1 at medium reasoning reviews transient child transcripts in the background. Useful notes persist; new people wait for parent review. |
 
 ## Try the prepared games without an API key
 
@@ -103,9 +105,11 @@ security boundaries and the source map.
 
 ## Privacy, costs and practical limits
 
-- No raw audio, transcript, city lookup or search question is saved by this app.
-  Authentication, usage totals, bounded progress and optional finite interests
-  are stored locally. External providers still process the requests sent to them.
+- No raw audio, full transcript, city lookup or search question is saved by this app.
+  Authentication, usage totals, bounded progress, interests, parent facts and brief
+  learned memories are stored locally. Memory-enabled voice adds asynchronous
+  transcription and background review; parents can inspect, disable and erase
+  learned memory. External providers process the requests sent to them.
 - Parent authorization and provider Zero Data Retention approval are separate
   flags. Enabling one does not establish the other or change provider retention.
   Review current provider requirements before enabling children's voice.

@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "engines": { "node": ">=22.13.0" },
-  "scripts": { "start": "node server.mjs", "test": "node --test test/*.test.mjs", "check": "node --check server.mjs && node --check lib/core.mjs && node --check lib/realtime.mjs && node --check public/app.js" },
+  "scripts": { "start": "node server.mjs", "test": "node --test test/*.test.mjs", "check": "node --check server.mjs && node --check lib/core.mjs && node --check lib/realtime.mjs && node --check lib/memory.mjs && node --check public/app.js" },
   "dependencies": { "ws": "8.22.0" }
 }

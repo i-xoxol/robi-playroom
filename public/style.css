@@ -18,3 +18,5 @@
  .login-card .primary{min-height:52px}
  .login-foot{margin:10px 0 0;line-height:1.6}
 }
+
+#family-memory{border-top:1px solid #d4dfd8;border-bottom:1px solid #d4dfd8;padding:14px 0;margin:18px 0}#family-memory summary{cursor:pointer;font-weight:700;margin:12px 0}#family-profile-form{display:grid;gap:7px}#family-profile-form input{width:100%;min-height:43px;border:1px solid #c7d7ce;border-radius:10px;padding:9px 12px;font:inherit}.memory-list{display:grid;gap:10px}.memory-card{padding:12px;border-radius:12px;background:#f0f5ed}.memory-card p{margin:0 0 5px}.memory-card small{display:block;color:#5e7066}.memory-card div{display:flex;gap:9px;margin-top:8px}.memory-card button{min-height:40px;padding:8px 14px}

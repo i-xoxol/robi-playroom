@@ -52,6 +52,39 @@ are not saved. Dates come from the location's forecast timezone. Missing data
 produces a failure, not a made-up forecast. Open-Meteo weather data is attributed
 under [CC BY 4.0](https://open-meteo.com/en/terms).
 
+## Family context and memory
+
+An optional private `ROBOT_FAMILY_PROFILE` JSON file seeds a new database once.
+Supported fields are `childName`, `city`, `region`, `country` (two-letter code),
+`school`, `grade`, `teacher`, `father`, `mother`, `grandmother`, `cat`, `sister`
+and `sisterNote`. Keep it outside the repository and public assets. Parent settings
+edit the database copy thereafter. Public source and screenshots must not include
+a real family's profile. Parent facts take precedence over learned claims and
+remain after a learning reset. Only unlocked parent routes expose the saved list.
+
+When learned memory is enabled, Realtime input transcription uses `gpt-transcribe`
+in Ukrainian. Its final child text stays briefly in RAM. It does not delay the
+voice reply. Small batches go to `gpt-6.1-sol`, `reasoning.effort=medium`, with
+`store:false`, strict JSON output and no tools. No assistant statements or adult
+test turns feed memory. Batches are limited and spaced at least 20 seconds apart.
+The supervisor is an organizer, not a real-time safety review of every reply.
+
+Candidates need a matching source phrase, pass server-side text checks and fit
+the 36-note cap. Preferences and learning notes are active; new people wait for
+parent approval. Recent experiences expire after 30 days. Up to 24 active notes
+enter subsequent voice context; parent names/relationships cannot be overwritten
+by this workflow. The model and transcription can still make mistakes, so parents
+can inspect or forget individual notes. Erasure and opt-out invalidate jobs
+already running so they cannot restore erased data. Disabling learned memory
+also stops the current call to remove its transcription configuration.
+
+Supervisor tokens and duration-based transcription estimates count toward the
+same monthly allowance. Provider billing is authoritative. No Codex subscription
+quota is used by these server API calls. Parent facts and active memories are sent
+to the conversation model; the supervisor receives the fixed profile and small
+text batches. Search receives only a general educational question, and weather
+uses city-level data. Provider retention is separate from local deletion.
+
 ## Authentication and spending
 
 Family passwords use scrypt. Sessions use an expiring HttpOnly, Secure,
@@ -70,7 +103,8 @@ hold limits. The ledger is a local estimate; provider billing is authoritative.
 
 The app does not persist raw audio, transcripts, search questions or city
 lookups. It saves authentication records, usage totals, bounded game progress
-and optional finite learning interests. Parents can erase learning records.
+optional finite learning interests, parent facts and brief learned memories.
+Parents can erase learning records and manage family context separately.
 Provider processing and retention remain governed by that provider/account;
 `store:false` and an app-side parent flag do not establish Zero Data Retention.
 
@@ -82,12 +116,18 @@ children's platform.
 
 ## Source map
 
+An optional `READING_ROOT` can serve a separate prepared reading app at
+`/games/robot-pal/reading/` using the family cookie. Its assets are separate from
+this repository. That scope has no microphone access or external API connection
+in its content security policy. Static audio supports Safari byte-range requests.
+
 | Path | Purpose |
 |---|---|
 | `server.mjs` | Password/session handling, private assets, API and SSE |
 | `lib/core.mjs` | SQLite, usage accounting, Ukrainian role and tool schemas |
 | `lib/realtime.mjs` | Call lifecycle, sideband controls and search |
 | `lib/weather.mjs` | Validated city-level forecasts |
+| `lib/memory.mjs` | Private profile validation, bounded memory and background supervisor |
 | `lib/request-security.mjs` | Same-origin and Safari request checks |
 | `public/` | Plain HTML/CSS/JS, robot SVG, icons and fixed narration |
 | `test/` | Local regression suite without provider requests |
